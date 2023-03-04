@@ -1,0 +1,220 @@
+2)Question
+Question 2 - 
+
+  Write the queries for the following tasks - 
+
+1.Create a database name - “Football”.
+
+2.Create a table name - “Football Venue”.
+
+3.Insert 10 details in the “Football Venue” table  - 
+
+1.venue_id
+
+2.venue_name
+
+3.city_id
+
+capacity
+
+Sample Output - 
+
+ venue_id |       venue_name        | city_id | capacity
+
+-------------+-----------------------------+----------+----------
+
+    20001 |             France               |   10003 |  42115
+
+
+  4. Count the number of venues of the football world cup
+
+  5. List all the venue names and capacities in the format of “Location” and “Volume”.
+
+
+Sample Output - 
+
+  Location        | Volume
+
+------------------+----------
+
+    Argentina   |   100034
+
+   Spain           |   272726
+
+
+6. Delete all the details where venue_name is equal to “Australia”
+
+
+
+SQL> create user football
+  2  identified by system;
+
+User created.
+
+SQL> grant dba to football;
+
+Grant succeeded.
+
+SQL> create table footballvenue
+  2  (
+  3  venue_id number(7),
+  4  venue_name varchar2(20),
+  5  city_id number(6),
+  6  capacity number(6)
+  7  );
+
+Table created.
+
+SQL> insert into footballvenue values(&a,&b,&c,&d);
+Enter value for a: 20001
+Enter value for b: 'france'
+Enter value for c: 10003
+Enter value for d: 42115
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(20001,'france',10003,42115)
+
+1 row created.
+
+SQL> /
+Enter value for a: 20023
+Enter value for b: 'japan'
+Enter value for c: 10013
+Enter value for d: 32415
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(20023,'japan',10013,32415)
+
+1 row created.
+
+SQL> /
+Enter value for a: 23456
+Enter value for b: 'germany'
+Enter value for c: 10023
+Enter value for d: 44135
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(23456,'germany',10023,44135)
+
+1 row created.
+
+SQL> /
+Enter value for a: 12345
+Enter value for b: 'russia'
+Enter value for c: 23145
+Enter value for d: 45672
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(12345,'russia',23145,45672)
+
+1 row created.
+
+SQL> /
+Enter value for a: 78903
+Enter value for b: 'bhutan'
+Enter value for c: 10012
+Enter value for d: 32143
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(78903,'bhutan',10012,32143)
+
+1 row created.
+
+SQL> /
+Enter value for a: 56436
+Enter value for b: 'india'
+Enter value for c: 10103
+Enter value for d: 34564
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(56436,'india',10103,34564)
+
+1 row created.
+
+SQL> /
+Enter value for a: 32145
+Enter value for b: 'england'
+Enter value for c: 10204
+Enter value for d: 43245
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(32145,'england',10204,43245)
+
+1 row created.
+
+SQL> /
+Enter value for a: 14563
+Enter value for b: 'newzealand'
+Enter value for c: 10342
+Enter value for d: 32564
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(14563,'newzealand',10342,32564)
+
+1 row created.
+
+SQL> /
+Enter value for a: 74321
+Enter value for b: 'southafrica'
+Enter value for c: 10201
+Enter value for d: 41124
+old   1: insert into footballvenue values(&a,&b,&c,&d)
+new   1: insert into footballvenue values(74321,'southafrica',10201,41124)
+
+1 row created.
+
+
+SQL> insert into footballvenue values(45632,'australia',10123,45036);
+
+1 row created.
+
+SQL> select * from footballvenue;
+
+  VENUE_ID VENUE_NAME              CITY_ID   CAPACITY
+---------- -------------------- ---------- ----------
+     20001 france                    10003      42115
+     20023 japan                     10013      32415
+     23456 germany                   10023      44135
+     12345 russia                    23145      45672
+     78903 bhutan                    10012      32143
+     56436 india                     10103      34564
+     32145 england                   10204      43245
+     14563 newzealand                10342      32564
+     74321 southafrica               10201      41124
+     45632 australia                 10123      45036
+
+10 rows selected.
+
+SQL> select footballvenue.venue_name as "location",footballvenue.capacity as "volume"
+  2  from footballvenue;
+
+location                 volume
+-------------------- ----------
+france                    42115
+japan                     32415
+germany                   44135
+russia                    45672
+bhutan                    32143
+india                     34564
+england                   43245
+newzealand                32564
+southafrica               41124
+australia                 45036
+
+10 rows selected.
+
+
+SQL> update footballvenue set venue_name='australia' where venue_name='russia';
+
+1 row updated.
+
+SQL> delete from footballvenue where venue_name='australia';
+
+2 rows deleted.
+
+SQL> select *from footballvenue;
+
+  VENUE_ID VENUE_NAME              CITY_ID   CAPACITY
+---------- -------------------- ---------- ----------
+     20001 france                    10003      42115
+     20023 japan                     10013      32415
+     23456 germany                   10023      44135
+     78903 bhutan                    10012      32143
+     56436 india                     10103      34564
+     32145 england                   10204      43245
+     14563 newzealand                10342      32564
+     74321 southafrica               10201      41124
+
+8 rows selected.
