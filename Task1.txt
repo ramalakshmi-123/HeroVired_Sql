@@ -201,6 +201,8 @@ admin
 
 Query-6: Write an SQL query to print details for Workers with the first name as “Vipul” and “Satish” from the Worker table.
 
+SQL> select *from worker where first_name in('vipul','satish');
+
 WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
 --- -------------------- -------------------- ---------- -------------------
 DEPARTMENT
