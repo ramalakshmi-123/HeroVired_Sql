@@ -1,0 +1,173 @@
+
+SQL> create table salesman
+  2  (
+  3  salesman_id number(5) primary key,
+  4  name varchar2(20) not null,
+  5  city varchar2(20) not null,
+  6  commission number(3,2) not null
+  7  );
+
+SQL>desc salesman;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SALESMAN_ID                               NOT NULL NUMBER(5)
+ NAME                                      NOT NULL VARCHAR2(20)
+ CITY                                      NOT NULL VARCHAR2(20)
+ COMMISSION                                NOT NULL NUMBER(3,2)
+
+SQL> create table customer
+  2  (
+  3  customer_id number(4) primary key,
+  4  cust_name varchar2(20) not null,
+  5  city varchar2(20) not null,
+  6  grade number(3),
+  7  salesman_id number(4),
+  8  foreign key(salesman_id) references salesman(salesman_id)
+  9  );
+
+Table created.
+
+SQL> insert into salesman values(5001,'james hoog','new york',0.15);
+
+1 row created.
+
+SQL> insert into salesman values(5002,'nail knite','paris',0.13);
+
+1 row created.
+
+SQL> insert into salesman values(5005,'pit alex','london',0.11);
+
+1 row created.
+
+SQL> insert into salesman values(5006,'mc lyon','paris',0.14);
+
+1 row created.
+
+SQL> insert into salesman values(5007,'paul adam','rome',0.13);
+
+1 row created.
+
+SQL> insert into salesman values(5003,'lauson hen','san jose',0.12);
+
+1 row created.
+
+SQL> select * from salesman;
+
+SALESMAN_ID NAME                 CITY                 COMMISSION
+----------- -------------------- -------------------- ----------
+       5001 james hoog           new york                    .15
+       5002 nail knite           paris                       .13
+       5005 pit alex             london                      .11
+       5006 mc lyon              paris                       .14
+       5007 paul adam            rome                        .13
+       5003 lauson hen           san jose                    .12
+
+6 rows selected.
+
+
+SQL> desc customer;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                               NOT NULL NUMBER(4)
+ CUST_NAME                                 NOT NULL VARCHAR2(20)
+ CITY                                      NOT NULL VARCHAR2(20)
+ GRADE                                              NUMBER(3)
+ SALESMAN_ID                                        NUMBER(4)
+
+SQL> insert into customer values(3002,'nick rimando','new york',100,5001);
+
+1 row created.
+
+SQL> insert into customer values(3007,'brad davis','new york',200,5001);
+
+1 row created.
+
+SQL> insert into customer values(3005,'graham zusi','california',200,5002);
+
+1 row created.
+
+SQL> insert into customer values(3008,'julian green','london',300,5002);
+
+1 row created.
+
+SQL> insert into customer values(3004,'fabia johnson','paris',300,5006);
+
+1 row created.
+
+SQL> insert into customer values(3009,'geoff cameron','berlin',100,5003);
+
+1 row created.
+
+SQL> insert into customer values(3003,'jozy altidor','moscow',200,5007);
+
+1 row created.
+
+SQL> insert into customer values(3001,'brad guzan','london',null,5005);
+
+1 row created.
+
+SQL> select *from customer;
+
+CUSTOMER_ID CUST_NAME            CITY                      GRADE SALESMAN_ID
+----------- -------------------- -------------------- ---------- -----------
+       3002 nick rimando         new york                    100        5001
+       3007 brad davis           new york                    200        5001
+       3005 graham zusi          california                  200        5002
+       3008 julian green          london                      300        5002
+       3004 fabia johnson        paris                       300        5006
+       3009 geoff cameron        berlin                      100        5003
+       3003 jozy altidor         moscow                      200        5007
+       3001 brad guzan           london                                 5005
+
+8 rows selected.
+
+Questions:
+
+Query-13:Write a SQL query to find the salesperson and customer who reside in the same city. Return Salesman, cust_name, and city.
+
+SQL> select salesman.name as "Salesman",customer.cust_name,customer.city from salesman,customer where salesman.city=customer.city;
+
+Salesman             CUST_NAME            CITY
+-------------------- -------------------- --------------------
+james hoog           nick rimando         new york
+james hoog           brad davis           new york
+pit alex             julian green         london
+mc lyon              fabia johnson        paris
+nail knite           fabia johnson        paris
+pit alex             brad guzan           london
+
+6 rows selected.
+
+Query-14:Write a SQL query to find the salesperson(s) and the customer(s) he represents. Return Customer Name, city, Salesman, and commission.
+
+SQL> select a.cust_name as "Customer Name",a.city,b.name as "Salesman",b.commission from customer a inner join salesman b on a.salesman_id=b.salesman_id;
+
+Customer Name        CITY                 Salesman             COMMISSION
+-------------------- -------------------- -------------------- ----------
+nick rimando         new york             james hoog                  .15
+brad davis           new york             james hoog                  .15
+graham zusi          california           nail knite                  .13
+julian green         london               nail knite                  .13
+fabia johnson        paris                mc lyon                     .14
+geoff cameron        berlin               lauson hen                  .12
+jozy altidor         moscow               paul adam                   .13
+brad guzan           london               pit alex                    .11
+
+8 rows selected.
+
+Query-15: Write a SQL query to find salespeople who received commissions of more than 12 percent from the company. Return Customer Name, customer city, Salesman, and commission.
+
+SQL> select a.cust_name as "Customer Name",a.city as "customer city",b.name as "Salesman",b.commission from customer a inner join salesman b on a.salesman_id = b.salesman_id where b.commission>.12;
+
+Customer Name        customer city        Salesman             COMMISSION
+-------------------- -------------------- -------------------- ----------
+nick rimando         new york             james hoog                  .15
+brad davis           new york             james hoog                  .15
+graham zusi          california           nail knite                  .13
+julian green         london               nail knite                  .13
+fabia johnson        paris                mc lyon                     .14
+jozy altidor         moscow               paul adam                   .13
+
+6 rows selected. 
+

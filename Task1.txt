@@ -1,0 +1,273 @@
+SQL> alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
+
+Session altered.
+
+Worker table data:
+
+SQL> select *from worker;
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+001 monika               arora                    100000 2014-02-20 09:00:00
+hr
+
+002 niharika             verma                     80000 2014-06-11 09:00:00
+admin
+
+003 vishal               singhal                  300000 2014-02-20 09:00:00
+hr
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+004 amitabh              singh                    500000 2014-02-20 09:00:00
+admin
+
+005 vivek                bhati                    500000 2014-06-11 09:00:00
+admin
+
+006 vipul                diwan                    200000 2014-06-11 09:00:00
+account
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+007 satish               kumar                     75000 2014-01-20 09:00:00
+account
+
+008 geetika              chauhan                   90000 2014-04-11 09:00:00
+admin
+
+
+8 rows selected.
+
+SQL>
+
+
+Query-1: Write an SQL query to fetch “FIRST_NAME” from the Worker table using the alias name <WORKER_NAME>.
+
+SQL> select worker.first_name as worker_name from worker;
+
+WORKER_NAME
+--------------------
+monika
+niharika
+vishal
+amitabh
+vivek
+vipul
+satish
+geetika
+
+8 rows selected. 
+
+(or)
+
+SQL> select first_name as worker_name from worker;
+
+WORKER_NAME
+--------------------
+monika
+niharika
+vishal
+amitabh
+vivek
+vipul
+satish
+geetika
+
+8 rows selected.
+
+
+Query-2:Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘Amitabh’ from the Worker table.
+
+SQL> select instr(first_name,'a') from worker where first_name='amitabh';
+
+INSTR(FIRST_NAME,'A')
+---------------------
+                    1
+Query-3:Write an SQL query to print the FIRST_NAME from the Worker table after replacing ‘a’ with ‘A’.
+
+SQL> select replace(first_name,'a','A') from worker;
+
+REPLACE(FIRST_NAME,'
+--------------------
+monikA
+nihArikA
+vishAl
+AmitAbh
+vivek
+vipul
+sAtish
+geetikA
+
+8 rows selected.
+
+Query-4:Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending.
+
+SQL> select *from worker order by first_name asc;
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+004 amitabh              singh                    500000 2014-02-20 09:00:00
+admin
+
+008 geetika              chauhan                   90000 2014-04-11 09:00:00
+admin
+
+001 monika               arora                    100000 2014-02-20 09:00:00
+hr
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+002 niharika             verma                     80000 2014-06-11 09:00:00
+admin
+
+007 satish               kumar                     75000 2014-01-20 09:00:00
+account
+
+006 vipul                diwan                    200000 2014-06-11 09:00:00
+account
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+003 vishal               singhal                  300000 2014-02-20 09:00:00
+hr
+
+005 vivek                bhati                    500000 2014-06-11 09:00:00
+admin
+
+
+8 rows selected.
+
+Query-5:Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending and DEPARTMENT Descending.
+
+SQL> select *from worker order by first_name asc,department desc ;
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+004 amitabh              singh                    500000 2014-02-20 09:00:00
+admin
+
+008 geetika              chauhan                   90000 2014-04-11 09:00:00
+admin
+
+001 monika               arora                    100000 2014-02-20 09:00:00
+hr
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+002 niharika             verma                     80000 2014-06-11 09:00:00
+admin
+
+007 satish               kumar                     75000 2014-01-20 09:00:00
+account
+
+006 vipul                diwan                    200000 2014-06-11 09:00:00
+account
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+003 vishal               singhal                  300000 2014-02-20 09:00:00
+hr
+
+005 vivek                bhati                    500000 2014-06-11 09:00:00
+admin
+
+
+8 rows selected.
+
+Query-6: Write an SQL query to print details for Workers with the first name as “Vipul” and “Satish” from the Worker table.
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+006 vipul                diwan                    200000 2014-06-11 09:00:00
+account
+
+007 satish               kumar                     75000 2014-01-20 09:00:00
+account
+
+Query-7:Write an SQL query to print details of Workers with DEPARTMENT name as “Admin”
+
+SQL> select *from worker where department like 'admin%';
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+002 niharika             verma                     80000 2014-06-11 09:00:00
+admin
+
+004 amitabh              singh                    500000 2014-02-20 09:00:00
+admin
+
+005 vivek                bhati                    500000 2014-06-11 09:00:00
+admin
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+008 geetika              chauhan                   90000 2014-04-11 09:00:00
+admin
+
+Query-8:Write an SQL query to print details of the Workers whose FIRST_NAME contains ‘a’
+
+SQL> select *from worker where first_name like '%a%';
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+001 monika               arora                    100000 2014-02-20 09:00:00
+hr
+
+002 niharika             verma                     80000 2014-06-11 09:00:00
+admin
+
+003 vishal               singhal                  300000 2014-02-20 09:00:00
+hr
+
+
+WOR FIRST_NAME           LAST_NAME                SALARY JOINING_DATE
+--- -------------------- -------------------- ---------- -------------------
+DEPARTMENT
+----------
+004 amitabh              singh                    500000 2014-02-20 09:00:00
+admin
+
+007 satish               kumar                     75000 2014-01-20 09:00:00
+account
+
+008 geetika              chauhan                   90000 2014-04-11 09:00:00
+admin
+
+
+6 rows selected.
+
+
