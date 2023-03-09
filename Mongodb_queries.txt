@@ -1,0 +1,580 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\HP> mongosh
+Current Mongosh Log ID: 63fc276cf6874bb102ec34f3
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.7.1
+Using MongoDB:          6.0.4
+Using Mongosh:          1.7.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-02-22T11:27:02.010+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+------
+
+College> use BookStore
+switched to db BookStore
+BookStore> db.Books.find()
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209eb"),
+    title: 'The light Fantastic',
+    author: 'Terey Partchett',
+    pages: 100,
+    rating: 10,
+    genres: [ 'fantasy' ]
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 10,
+    genres: [ 'sci-fi', 'fiction' ]
+  }
+]
+BookStore> db.Books.insertOne({title:"The subtle art of not giving Damn",author:"Patrick Rothfuss",pages:700,genres:["fantasy","romance","motivational"],review:[{name:"yoshi",comment:"Amazing Book"},{name:"vasavi",comment:"Very nice Book!"}]}]
+Uncaught:
+
+BookStore> db.Books.find({},{title:1,author:1})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss'
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+
+BookStore> db.Books.find({rating:7})
+[
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+
+BookStore> db.Books.find({rating:{$gt:8}})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209eb"),
+    title: 'The light Fantastic',
+    author: 'Terey Partchett',
+    pages: 100,
+    rating: 10,
+    genres: [ 'fantasy' ]
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 10,
+    genres: [ 'sci-fi', 'fiction' ]
+  }
+]
+BookStore> db.Books.find({rating:{$gte:8}})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209eb"),
+    title: 'The light Fantastic',
+    author: 'Terey Partchett',
+    pages: 100,
+    rating: 10,
+    genres: [ 'fantasy' ]
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 9,
+    genres: [ 'sci-fi', 'fiction' ]
+  }
+]
+BookStore> db.Books.find({rating:{$lt:8}})
+[
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+
+BookStore> db.Books.find({rating:{$lt:8},author:"Patrick Rothfuss"})
+
+BookStore> db.Books.find({rating:{$lt:8}},author:"Patrick Rothfuss"})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:37)
+
+> 1 | db.Books.find({rating:{$lt:8}},author:"Patrick Rothfuss"})
+    |                                      ^
+  2 |
+
+BookStore> db.Books.find({rating:{$lt:8}},{author:"Patrick Rothfuss"})
+[
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    author: 'Patrick Rothfuss'
+  }
+]
+BookStore> db.Books.count()
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+7
+BookStore>
+
+BookStore> db.Books.count
+[Function: count] AsyncFunction {
+  apiVersions: [ 0, 0 ],
+  serverVersions: [ '0.0.0', '4.0.0' ],
+  deprecated: true,
+  returnsPromise: true,
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+BookStore> db.Books.find.count()
+TypeError: db.Books.find.count is not a function
+BookStore> db.Books.find({count})
+ReferenceError: count is not defined
+BookStore> db.Books.find().count
+[Function: count] AsyncFunction {
+  deprecated: true,
+  returnsPromise: true,
+  serverVersions: [ '0.0.0', '4.0.0' ],
+  apiVersions: [ 0, Infinity ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+
+
+BookStore> db.Books.find({$or:[{rating:7},{author:"Jay Shetty"}]})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  }
+]
+BookStore> db.Books.find({$or:[{pages:{$lt:300}},{pages:{$gt:400}}]})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+
+BookStore> db.Books.find({rating:{$in:[7,8.9]}})
+[
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  }
+]
+BookStore> db.Books.find({rating:{$in:[7,8,9]}})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+
+BookStore> db.Books.find({rating:{$nin:[5,10]}})
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 9,
+    genres: [ 'sci-fi', 'fiction' ]
+  },
+  {
+    _id: ObjectId("63fc339f05c62aece53ee3db"),
+    title: 'The subtle art of not giving Damn',
+    author: 'Patrick Rothfuss',
+    pages: 700,
+    genres: [ 'fantasy', 'romance', 'motivational' ],
+    review: [
+      { name: 'yoshi', comment: 'Amazing Book' },
+      { name: 'vasavi', comment: 'Very nice Book!' }
+    ]
+  }
+]
+BookStore> db.Books.find({genres:"fantasy"})
+[
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209eb"),
+    title: 'The light Fantastic',
+    author: 'Terey Partchett',
+    pages: 100,
+    rating: 10,
+    genres: [ 'fantasy' ]
+
+BookStore> db.Books.find({genres:{$all:["fantasy","romance"]}})
+[
+  {
+    _id: ObjectId("63fc339f05c62aece53ee3db"),
+    title: 'The subtle art of not giving Damn',
+    author: 'Patrick Rothfuss',
+    pages: 700,
+    genres: [ 'fantasy', 'romance', 'motivational' ],
+    review: [
+      { name: 'yoshi', comment: 'Amazing Book' },
+      { name: 'vasavi', comment: 'Very nice Book!' }
+    ]
+  }
+]
+BookStore> db.Books.find()
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209eb"),
+    title: 'The light Fantastic',
+    author: 'Terey Partchett',
+    pages: 100,
+    rating: 10,
+    genres: [ 'fantasy' ]
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+
+BookStore> db.Books.find({"review.name":"yoshi"})
+[
+  {
+    _id: ObjectId("63fc339f05c62aece53ee3db"),
+    title: 'The subtle art of not giving Damn',
+    author: 'Patrick Rothfuss',
+    pages: 700,
+    genres: [ 'fantasy', 'romance', 'motivational' ],
+    review: [
+      { name: 'yoshi', comment: 'Amazing Book' },
+      { name: 'vasavi', comment: 'Very nice Book!' }
+    ]
+  }
+]
+
+
+
+
+BookStore> db.Books.find()
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 9,
+    genres: [ 'sci-fi', 'fiction' ]
+  },
+  {
+    _id: ObjectId("63fc339f05c62aece53ee3db"),
+    title: 'The subtle art of not giving Damn',
+    author: 'Patrick Rothfuss',
+    pages: 700,
+    genres: [ 'fantasy', 'romance', 'motivational' ],
+    review: [
+      { name: 'yoshi', comment: 'Amazing Book' },
+      { name: 'vasavi', comment: 'Very nice Book!' }
+    ],
+    rating: '5'
+  }
+]
+BookStore> db.Books.update({_id:ObjectId("63fc339f05c62aece53ee3db")},{$set:{"rating":5},{parseInt(5)}})
+Uncaught:
+SyntaxError: Unexpected token (1:78)
+
+> 1 | db.Books.update({_id:ObjectId("63fc339f05c62aece53ee3db")},{$set:{"rating":5},{parseInt(5)}})
+    |                                                                               ^
+  2 |
+
+BookStore> db.Books.update({_id:ObjectId("63fc339f05c62aece53ee3db")},{$set:{"rating":parseInt(5)}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+BookStore> db.Books.find()
+[
+  {
+    _id: ObjectId("63f6f7d672232346149e09f4"),
+    title: 'Name of the wind',
+    author: 'Patrick Ruthfuss',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 9
+  },
+  {
+    _id: ObjectId("63f6f7d672232346149e09f5"),
+    title: 'Think like a Monk',
+    author: 'Jay Shetty',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 10
+  },
+  {
+    _id: ObjectId("63f704277d796581d09c8fab"),
+    title: 'The Final Empire',
+    author: 'Brandon Sanderson',
+    pages: 100,
+    Genres: [ 'Fantasy', 'Magical' ],
+    rating: 8
+  },
+  {
+    _id: ObjectId("63f84455a959db8a758209e9"),
+    title: 'The color of magic',
+    author: 'Terey Partchett',
+    page: '300',
+    rating: 7,
+    genres: [ 'fantasy', 'Magical' ],
+    pages: 100
+  },
+  {
+    _id: ObjectId("63f846bea959db8a758209ec"),
+    title: 'Dune',
+    author: 'Franck Herbert',
+    pages: 100,
+    rating: 9,
+    genres: [ 'sci-fi', 'fiction' ]
+  },
+  {
+    _id: ObjectId("63fc339f05c62aece53ee3db"),
+    title: 'The subtle art of not giving Damn',
+    author: 'Patrick Rothfuss',
+    pages: 700,
+    genres: [ 'fantasy', 'romance', 'motivational' ],
+    review: [
+      { name: 'yoshi', comment: 'Amazing Book' },
+      { name: 'vasavi', comment: 'Very nice Book!' }
+    ],
+    rating: 5
+  }
+]
+BookStore> db.Books.update({_id:ObjectId("63fc339f05c62aece53ee3db")},{$set:{"rating":String(5)}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+
+
