@@ -1,0 +1,56 @@
+selfjoin:
+SQL> select *from r1;
+
+FIRST_NAME           LAST_NAME                SALARY
+-------------------- -------------------- ----------
+rama                 ravula                    10000
+shagun               bhatia                    10000
+sai                  kumar                     12000
+vasavi               reddy                     15000
+ajay                 anala                     20000
+
+SQL> select *from r2;
+
+LAST_NAME            GENDER                      AGE
+-------------------- -------------------- ----------
+kumar                male                         22
+garg                 female                       19
+anala                male                         19
+reddy                female                       20
+ravula               female                       21
+bhatia               female                       23
+
+6 rows selected.
+
+SQL> select surname.last_name as last_name,sex.gender as gender from r2 surname,r2 sex
+  2  where surname.gender=sex.gender;
+
+LAST_NAME            GENDER
+-------------------- --------------------
+anala                male
+kumar                male
+bhatia               female
+ravula               female
+reddy                female
+garg                 female
+anala                male
+kumar                male
+bhatia               female
+ravula               female
+reddy                female
+
+LAST_NAME            GENDER
+-------------------- --------------------
+garg                 female
+bhatia               female
+ravula               female
+reddy                female
+garg                 female
+bhatia               female
+ravula               female
+reddy                female
+garg                 female
+
+20 rows selected.
+
+SQL>

@@ -1,0 +1,95 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+
+SQL> create table team
+  2  (
+  3  id number(4) primary key,
+  4  team_name varchar2(20) not null,
+  5  position varchar2(20) unique
+  6  );
+
+Table created.
+
+SQL> create table player
+  2  (
+  3  id number(4) references team(id),
+  4  player_name varchar2(20),
+  5  height number(3)
+  6  );
+
+Table created.
+
+SQL> insert into team values(&a,&b,&c);
+Enter value for a: 101
+Enter value for b: 'san diego'
+Enter value for c: 'k'
+old   1: insert into team values(&a,&b,&c)
+new   1: insert into team values(101,'san diego','k')
+
+1 row created.
+
+SQL> /
+Enter value for a: 102
+Enter value for b: 'houstan'
+Enter value for c: 'diego'
+old   1: insert into team values(&a,&b,&c)
+new   1: insert into team values(102,'houstan','diego')
+
+1 row created.
+
+SQL> /
+Enter value for a: 103
+Enter value for b: 'mumbai indians'
+Enter value for c: 'cricket'
+old   1: insert into team values(&a,&b,&c)
+new   1: insert into team values(103,'mumbai indians','cricket')
+
+1 row created.
+
+SQL> insert into player values(&a,&b,&c);
+Enter value for a: 101
+Enter value for b: 'virat'
+Enter value for c: 167
+old   1: insert into player values(&a,&b,&c)
+new   1: insert into player values(101,'virat',167)
+
+1 row created.
+
+SQL> /
+Enter value for a: 102
+Enter value for b: 'krunal'
+Enter value for c: 165
+old   1: insert into player values(&a,&b,&c)
+new   1: insert into player values(102,'krunal',165)
+
+1 row created.
+
+SQL> /
+Enter value for a: 104
+Enter value for b: 'hardik'
+Enter value for c: 168
+old   1: insert into player values(&a,&b,&c)
+new   1: insert into player values(104,'hardik',168)
+insert into player values(104,'hardik',168)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C007011) violated - parent key not
+found
+
+
+SQL> select *from team;
+
+        ID TEAM_NAME            POSITION
+---------- -------------------- --------------------
+       101 san diego            k
+       102 houstan              diego
+       103 mumbai indians       cricket
+
+SQL> select *from player;
+
+        ID PLAYER_NAME              HEIGHT
+---------- -------------------- ----------
+       101 virat                       167
+       102 krunal                      165

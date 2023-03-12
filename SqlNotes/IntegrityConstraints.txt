@@ -1,0 +1,223 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+
+Integrity Constraints:Not null,primary key,unique,check,default,foreign key
+
+SQL> desc driving_license;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ LICENSE_NO                                NOT NULL NUMBER
+ NAME                                               VARCHAR2(20)
+ DOB                                       NOT NULL DATE
+ VEHICLE_CLASS                             NOT NULL VARCHAR2(20)
+ DOI                                                DATE
+ VALID                                              DATE
+
+SQL> insert into driving_license values(901,'','10-mar-03','drive','10-mar-19','16-feb-23');
+
+1 row created.
+
+SQL> insert into driving_license values(901,'','10-mar-03','','10-mar-19','16-feb-23');
+insert into driving_license values(901,'','10-mar-03','','10-mar-19','16-feb-23')
+                                                      *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."DRIVING_LICENSE"."VEHICLE_CLASS")
+
+
+SQL> insert into driving_license values(901,'','10-mar-03','drive','10-mar-19','16-feb-23');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create table books
+  2  (
+  3  book_id number(4) primary key
+  4  );
+
+Table created.
+
+SQL> insert into books values(5112);
+
+1 row created.
+
+SQL>
+SQL> insert into books values(5178);
+
+1 row created.
+
+SQL> insert into books values(5112);
+insert into books values(5112)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007005) violated
+
+
+SQL> create table persons
+  2  (
+  3  id number(3) not null unique,
+  4  last_name varchar2(20) unique,
+  5  first_name varchar2(20),
+  6  age number(2)
+  7  );
+
+Table created.
+
+SQL> insert into persons values(1,'ravula','rama',22);
+
+1 row created.
+
+SQL> insert into persons values(1,'ravula','rama',22);
+insert into persons values(1,'ravula','rama',22)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007071) violated
+
+
+SQL> insert into persons values(2,'ravula','rama',22);
+insert into persons values(2,'ravula','rama',22)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007072) violated
+
+
+SQL> insert into persons values(3,'singh','rama',22);
+
+1 row created.
+
+SQL> select *from persons;
+
+        ID LAST_NAME            FIRST_NAME                  AGE
+---------- -------------------- -------------------- ----------
+         1 ravula               rama                         22
+         3 singh                rama                         22
+
+SQL> insert into persons values(4,'','rama',22);
+
+1 row created.
+
+SQL> insert into persons values(5,'','rama',22);
+
+1 row created.
+
+SQL> insert into persons values(null,null,'rama',22);
+insert into persons values(null,null,'rama',22)
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."PERSONS"."ID")
+
+
+SQL> insert into persons values(6,null,'rama',22);
+
+1 row created.
+
+SQL> select *from persons;
+
+        ID LAST_NAME            FIRST_NAME                  AGE
+---------- -------------------- -------------------- ----------
+         1 ravula               rama                         22
+         3 singh                rama                         22
+         4                      rama                         22
+         5                      rama                         22
+         6                      rama                         22
+
+
+
+table level unique constraint:
+
+SQL> create table sales(
+  2  sales_id number(4),
+  3  salesman_name varchar2(20),
+  4  unique(sales_id)
+  5  );
+
+Table created.
+
+SQL> insert into sales values(101,'raju');
+
+1 row created.
+
+SQL> insert into sales values(101,'raju');
+insert into sales values(101,'raju')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007076) violated
+
+
+SQL> insert into sales values(102,'raju');
+
+1 row created.
+
+SQL> insert into sales values(null,'raju');
+
+1 row created.
+
+SQL> select *from sales;
+
+  SALES_ID SALESMAN_NAME
+---------- --------------------
+       101 raju
+       102 raju
+           raju
+
+
+SQL> create table emp1
+  2  (
+  3  emp_id number(3),
+  4  emp_name varchar2(20),
+  5  dob date,
+  6  primary key(emp_name,dob)
+  7  );
+
+Table created.
+
+SQL> insert into emp1 values(101,'rama','15-mar-03');
+
+1 row created.
+
+SQL> insert into emp1 values(101,'rama','15-mar-03');
+insert into emp1 values(101,'rama','15-mar-03')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C007006) violated
+
+SQL> create table patient
+  2  (
+  3  blood_group varchar2(12) check(blood_group in('a+','b+','ab','o+','a-','b-','o-'))
+  4  );
+
+Table created.
+
+SQL> insert into patient values('c');
+insert into patient values('c')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SYSTEM.SYS_C007007) violated
+
+
+SQL> insert into patient values('a+');
+
+1 row created.
+
+SQL> create table bank_details
+  2  (
+  3  ifsc varchar2(20) default 'cbin0742890',
+  4  name varchar2(20)
+  5  );
+
+Table created.
+
+SQL> insert into bank_details values(default,'sai');
+
+1 row created.
+
+SQL> select *from bank_details;
+
+IFSC                 NAME
+-------------------- --------------------
+cbin0742890          sai
+

@@ -1,0 +1,42 @@
+SQL> select first_name,salary,age from r1,r2;
+
+FIRST_NAME               SALARY        AGE
+-------------------- ---------- ----------
+rama                      10000         22
+rama                      10000         19
+rama                      10000         19
+rama                      10000         20
+rama                      10000         21
+rama                      10000         23
+shagun                    10000         22
+shagun                    10000         19
+shagun                    10000         19
+shagun                    10000         20
+shagun                    10000         21
+
+FIRST_NAME               SALARY        AGE
+-------------------- ---------- ----------
+shagun                    10000         23
+sai                       12000         22
+sai                       12000         19
+sai                       12000         19
+sai                       12000         20
+sai                       12000         21
+sai                       12000         23
+vasavi                    15000         22
+vasavi                    15000         19
+vasavi                    15000         19
+vasavi                    15000         20
+
+FIRST_NAME               SALARY        AGE
+-------------------- ---------- ----------
+vasavi                    15000         21
+vasavi                    15000         23
+ajay                      20000         22
+ajay                      20000         19
+ajay                      20000         19
+ajay                      20000         20
+ajay                      20000         21
+ajay                      20000         23
+
+30 rows selected.

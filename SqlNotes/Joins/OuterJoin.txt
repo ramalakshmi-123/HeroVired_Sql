@@ -1,0 +1,26 @@
+Left Outer Join:
+
+SQL> select first_name,salary,age from r1,r2 where r1.last_name=r2.last_name(+);
+
+FIRST_NAME               SALARY        AGE
+-------------------- ---------- ----------
+sai                       12000         22
+ajay                      20000         19
+vasavi                    15000         20
+rama                      10000         21
+shagun                    10000         23
+
+Right Outer Join:
+
+SQL> select first_name,salary,age from r1,r2 where r1.last_name(+)=r2.last_name;
+
+FIRST_NAME               SALARY        AGE
+-------------------- ---------- ----------
+rama                      10000         21
+shagun                    10000         23
+sai                       12000         22
+vasavi                    15000         20
+ajay                      20000         19
+                                        19
+
+6 rows selected.

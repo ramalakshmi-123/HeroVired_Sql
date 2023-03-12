@@ -1,0 +1,174 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+
+SQL> create table employee(
+  2  e_id number(4),
+  3  name varchar2(20),
+  4  age number(5),
+  5  salary number(10)
+  6  );
+
+Table created.
+
+SQL> select *from employee;
+
+E_ID        NAME       AGE     SALARY       
+------ ------------- -------  ---------
+  1         john        19      18000          
+  2         mark        20      14000          
+  3         david       17      16500          
+  4         james       22      20000          
+  5         vasavi      19      50000          
+  6         jahanavi    26      60000          
+
+6 rows selected.
+
+SQL> create view virtual as select *from employee where e_id<4;
+
+View created.
+
+SQL> select *from virtual;
+
+E_ID         NAME         AGE     SALARY       
+-------- -----------   -------------------
+  1          john         19      18000          
+  2          mark         20      14000          
+  3          david        17      16500          
+
+
+SQL> create view e_name as select name from employee where salary<30000;
+
+View created.
+
+SQL> select *from e_name;
+
+NAME
+------------
+john
+mark
+david
+james
+
+SQL> create or replace view virtual as select e_id,name from employee where salary<20000;
+
+View created.
+
+SQL> select *from virtual;
+
+      E_ID NAME
+---------- ---------  
+         1 john
+         2 mark
+         3 david
+
+SQL> create or replace view virtual as select * from employee where e_id<4;
+
+View created.
+
+SQL> select *from virtual;
+
+E_ID        NAME          AGE     SALARY       
+---------  ---------   -------- ---------- 
+  1         john          19      18000          
+  2         mark          20      14000          
+  3         david         17      16500          
+
+SQL> insert into virtual values(5,'denmark',18,30000);
+
+1 row created.
+
+SQL> select *from virtual;
+
+E_ID        NAME            AGE     SALARY       
+--------- -------------- --------- --------
+  1         john            19      18000          
+  2         mark            20      14000          
+  3         david           17      16500          
+
+SQL> insert into virtual values(5,'mack',18,30000);
+
+1 row created.
+
+SQL> select *from virtual;
+
+E_ID        NAME         AGE     SALARY       
+--------- ----------- --------- --------
+  1         john         19      18000          
+  2         mark         20      14000          
+  3         david        17      16500  
+
+SQL> insert into virtual values(2,'denmark',18,30000);
+
+1 row created.
+
+SQL> select *from virtual;
+
+E_ID        NAME           AGE     SALARY       
+--------- ------------- --------- --------
+  1         john           19      18000          
+  2         mark           20      14000          
+  3         david          17      16500  
+  2         denmark        18      30000          
+
+
+SQL> select *from employee;
+
+E_ID        NAME           AGE     SALARY       
+--------- ------------ ---------- --------
+  1         john           19      18000          
+  2         mark           20      14000          
+  3         david          17      16500  
+  4         james          22      20000          
+  5         vasavi         19      50000          
+  6         jahanavi       26      60000          
+  5         denmark        18      30000          
+  5         mack           18      30000          
+  2         denmark        18      30000          
+
+9 rows selected.
+
+SQL> update virtual set salary='40000' ;
+
+4 rows updated.
+
+SQL> select *from virtual;
+
+E_ID        NAME         AGE     SALARY       
+------- ------------ ---------- ---------- 
+ 1          john          19      40000          
+ 2          mark          20      40000          
+ 3          david         17      40000          
+ 2         denmark        18      40000          
+
+SQL> select *from employee;
+
+E_ID        NAME         AGE     SALARY       
+------- ------------ ---------- ---------- 
+ 1          john          19      40000          
+ 2          mark          20      40000          
+ 3          david         17      40000          
+ 4          james         22      20000          
+ 5          vasavi        19      50000          
+ 6          jahanavi      26      60000          
+ 5          denmark       18      30000          
+ 5          mack          18      30000          
+ 2          denmark       18      40000          
+
+9 rows selected.
+
+SQL> delete from virtual where e_id=6;
+
+0 rows deleted.
+
+SQL> delete from virtual where e_id=2;
+
+2 rows deleted.
+
+SQL> select *from virtual;
+
+      E_ID NAME                        AGE     SALARY
+---------- -------------------- ---------- ----------
+         1 john                         19      40000
+         3 david                        17      40000 

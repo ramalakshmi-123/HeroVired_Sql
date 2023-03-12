@@ -1,0 +1,266 @@
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> create table emp
+  2  (
+  3  e_id number(4),
+  4  ename varchar2(20),
+  5  dept varchar2(20),
+  6  e_age number(2),
+  7  gender varchar2(20),
+  8  salary number(10)
+  9  );
+
+Table created.
+
+SQL> insert into emp values(&a,&b,&c,&d,&e,&f);
+Enter value for a: 201
+Enter value for b: 'bindu'
+Enter value for c: 'maths'
+Enter value for d: 60
+Enter value for e: 'f'
+Enter value for f: 100000
+old   1: insert into emp values(&a,&b,&c,&d,&e,&f)
+new   1: insert into emp values(201,'bindu','maths',60,'f',100000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 202
+Enter value for b: 'sai'
+Enter value for c: 'english'
+Enter value for d: 65
+Enter value for e: 'm'
+Enter value for f: 12000
+old   1: insert into emp values(&a,&b,&c,&d,&e,&f)
+new   1: insert into emp values(202,'sai','english',65,'m',12000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 203
+Enter value for b: 'vasavi'
+Enter value for c: 'physics'
+Enter value for d: 50
+Enter value for e: 'f'
+Enter value for f: 12500
+old   1: insert into emp values(&a,&b,&c,&d,&e,&f)
+new   1: insert into emp values(203,'vasavi','physics',50,'f',12500)
+
+1 row created.
+
+SQL> /
+Enter value for a: 204
+Enter value for b: 'tanvi'
+Enter value for c: 'chemistry'
+Enter value for d: 55
+Enter value for e: 'f'
+Enter value for f: 13000
+old   1: insert into emp values(&a,&b,&c,&d,&e,&f)
+new   1: insert into emp values(204,'tanvi','chemistry',55,'f',13000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 205
+Enter value for b: 'raj'
+Enter value for c: 'botany'
+Enter value for d: 30
+Enter value for e: 'm'
+Enter value for f: 12500
+old   1: insert into emp values(&a,&b,&c,&d,&e,&f)
+new   1: insert into emp values(205,'raj','botany',30,'m',12500)
+
+1 row created.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ E_ID                                               NUMBER(4)
+ ENAME                                              VARCHAR2(20)
+ DEPT                                               VARCHAR2(20)
+ E_AGE                                              NUMBER(2)
+ GENDER                                             VARCHAR2(20)
+ SALARY                                             NUMBER(10)
+
+SQL> select *from emp;
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       201 bindu                maths                        60
+f                        100000
+
+       202 sai                  english                      65
+m                         12000
+
+       203 vasavi               physics                      50
+f                         12500
+
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       204 tanvi                chemistry                    55
+f                         13000
+
+       205 raj                  botany                       30
+m                         12500
+
+
+SQL> select ename,dept from emp where gender='f';
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+vasavi               physics
+tanvi                chemistry
+
+SQL> select ename,dept from emp where gender='f' or gender='m';
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+sai                  english
+vasavi               physics
+tanvi                chemistry
+raj                  botany
+
+SQL> select ename,dept from emp where gender='f' or salary<11000;
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+vasavi               physics
+tanvi                chemistry
+
+SQL> select ename,dept from emp where gender='m' and salary>10000;
+
+ENAME                DEPT
+-------------------- --------------------
+sai                  english
+raj                  botany
+
+SQL> select ename,dept from emp where gender='m' and salary<10000;
+
+no rows selected
+
+SQL> select ename,dept from emp where gender='f' and salary<13000;
+
+ENAME                DEPT
+-------------------- --------------------
+vasavi               physics
+
+SQL> select ename,dept from emp where gender='m' and salary<13000;
+
+ENAME                DEPT
+-------------------- --------------------
+sai                  english
+raj                  botany
+
+SQL> select ename,dept from emp where gender='f' and salary>13000;
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+
+SQL> select ename,dept from emp where gender='f' and salary>=13000;
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+tanvi                chemistry
+
+SQL> select ename,dept from emp where gender!='f';
+
+ENAME                DEPT
+-------------------- --------------------
+sai                  english
+raj                  botany
+
+SQL> select ename,dept from emp where gender!='m';
+
+ENAME                DEPT
+-------------------- --------------------
+bindu                maths
+vasavi               physics
+tanvi                chemistry
+
+SQL> select *from emp where gender!='m';
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       201 bindu                maths                        60
+f                        100000
+
+       203 vasavi               physics                      50
+f                         12500
+
+       204 tanvi                chemistry                    55
+f                         13000
+
+
+SQL> select *from emp where gender!='f';
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       202 sai                  english                      65
+m                         12000
+
+       205 raj                  botany                       30
+m                         12500
+
+
+SQL> select *from emp where ename like ('%u');
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       201 bindu                maths                        60
+f                        100000
+
+
+SQL> select *from emp where ename like ('%a');
+
+no rows selected
+
+SQL> select *from emp where ename like ('%i');
+
+      E_ID ENAME                DEPT                      E_AGE
+---------- -------------------- -------------------- ----------
+GENDER                   SALARY
+-------------------- ----------
+       202 sai                  english                      65
+m                         12000
+
+       203 vasavi               physics                      50
+f                         12500
+
+       204 tanvi                chemistry                    55
+f                         13000
+
+
+SQL> select ename,salary from emp where e_id in('201','202','205');
+
+ENAME                    SALARY
+-------------------- ----------
+bindu                    100000
+sai                       12000
+raj                       12500
+
+SQL> select e_id,ename,dept from  emp where salary between 7000 and 13000;
+
+      E_ID ENAME                DEPT
+---------- -------------------- --------------------
+       202 sai                  english
+       203 vasavi               physics
+       204 tanvi                chemistry
+       205 raj                  botany

@@ -1,0 +1,135 @@
+SQL> create table r1
+  2  (
+  3  first_name varchar2(20),
+  4  last_name varchar2(20),
+  5  salary number(10)
+  6  );
+
+Table created.
+
+SQL> create table r2
+  2  (
+  3  last_name varchar2(20),
+  4  gender varchar2(20),
+  5  age number(2)
+  6  );
+
+Table created.
+
+SQL> insert into r1 values(&a,&b,&c);
+Enter value for a: 'rama'
+Enter value for b: 'ravula'
+Enter value for c: 10000
+old   1: insert into r1 values(&a,&b,&c)
+new   1: insert into r1 values('rama','ravula',10000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'shagun'
+Enter value for b: 'bhatia'
+Enter value for c: 10000
+old   1: insert into r1 values(&a,&b,&c)
+new   1: insert into r1 values('shagun','bhatia',10000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'sai'
+Enter value for b: 'kumar'
+Enter value for c: 12000
+old   1: insert into r1 values(&a,&b,&c)
+new   1: insert into r1 values('sai','kumar',12000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'vasavi'
+Enter value for b: 'reddy'
+Enter value for c: 15000
+old   1: insert into r1 values(&a,&b,&c)
+new   1: insert into r1 values('vasavi','reddy',15000)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'ajay'
+Enter value for b: 'anala'
+Enter value for c: 20000
+old   1: insert into r1 values(&a,&b,&c)
+new   1: insert into r1 values('ajay','anala',20000)
+
+1 row created.
+
+SQL> insert into r2 values('kumar','male',22);
+
+1 row created.
+
+SQL> insert into r2 values(&a,&b,&c);
+Enter value for a: 'garg'
+Enter value for b: 'female'
+Enter value for c: 19
+old   1: insert into r2 values(&a,&b,&c)
+new   1: insert into r2 values('garg','female',19)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'anala'
+Enter value for b: 'male'
+Enter value for c: 19
+old   1: insert into r2 values(&a,&b,&c)
+new   1: insert into r2 values('anala','male',19)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'reddy'
+Enter value for b: 'female'
+Enter value for c: 20
+old   1: insert into r2 values(&a,&b,&c)
+new   1: insert into r2 values('reddy','female',20)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'ravula'
+Enter value for b: 'female'
+Enter value for c: 21
+old   1: insert into r2 values(&a,&b,&c)
+new   1: insert into r2 values('ravula','female',21)
+
+1 row created.
+
+SQL> /
+Enter value for a: 'bhatia'
+Enter value for b: 'female'
+Enter value for c: 23
+old   1: insert into r2 values(&a,&b,&c)
+new   1: insert into r2 values('bhatia','female',23)
+
+1 row created.
+
+SQL> select *from r1;
+
+FIRST_NAME           LAST_NAME                SALARY
+-------------------- -------------------- ----------
+rama                 ravula                    10000
+shagun               bhatia                    10000
+sai                  kumar                     12000
+vasavi               reddy                     15000
+ajay                 anala                     20000
+
+SQL> select *from r2;
+
+LAST_NAME            GENDER                      AGE
+-------------------- -------------------- ----------
+kumar                male                         22
+garg                 female                       19
+anala                male                         19
+reddy                female                       20
+ravula               female                       21
+bhatia               female                       23
+
+6 rows selected.
+
