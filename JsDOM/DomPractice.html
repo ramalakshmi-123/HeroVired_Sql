@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DOM practice</title>
+</head>
+<body>
+<p id="demo">Mouse over me</p>
+
+
+<!-- <div id="box" onmouseover="changeText('Yes, this is Onmouseover Text')" onmouseout="changeback('any thing')" > -->
+<!-- <div id="box">
+
+<div id="text-display" >any thing </div>
+<button id="btn" onmouseover="changeText('Yes, this is Onmouseover Text')" onmouseout="changeback('any thing')">Click Me</button> -->
+
+<button id="btn">button</button>  
+<script>
+    let ele = document.getElementById("btn");        //  5
+    ele.onmouseover = function() {
+    this.innerHTML = "New Data";
+  };
+                                        
+   let e = document.getElementById("btn");        //  6
+   let btn1= ele.innerHTML;
+   e.onmouseout = function() {
+   this.innerHTML = btn1;
+   };
+    
+  </script> 
+
+
+
+
+<p id="pText"></p>
+<input type="text" id="b1"/>
+<button onclick="changeTxt();">Clicked</button>
+
+<ul id="list">
+  <li>Mongodb</li>
+  <li>SQL</li>
+  <li>Java</li>
+</ul>
+<script type="text/javascript">
+    document.getElementById("demo").onmouseover = function() {mouseOver()};
+    document.getElementById("demo").onmouseout = function() {mouseOut()};
+             // or
+    // document.getElementById("demo").addEventListener("mouseover", mouseOver);
+    // document.getElementById("demo").addEventListener("mouseout", mouseOut);
+
+    function mouseOver() {
+  document.getElementById("demo").style.color = "red";
+}
+function mouseOut() {
+  document.getElementById("demo").style.color = "black";
+}
+
+    function changeText(text)
+        {
+            var display = document.getElementById('text-display');
+            display.innerHTML = "";
+            display.innerHTML = text;
+        }
+    function changeback(text)
+        {
+            var display = document.getElementById('text-display');
+            display.innerHTML = "";
+            display.innerHTML = text;
+        }
+
+         const btn=document.getElementById('btn');
+        btn.addEventListener("changeText",(event)=>{
+          event.target.innerHTML='changeText';
+        })
+
+        var el_down = document.getElementById("pText");
+        var inputF = document.getElementById("b1");
+  
+        function changeTxt() {
+            // inputF.value = "textValue";
+            el_down.innerHTML = inputF.value;
+        }
+
+        const list = document.getElementById("list");
+        list.addEventListener("mouseover", (event) => {
+          // highlight the mouseover target
+          event.target.style.color = " orange ";
+          event.target.style.fontWeight='bold';
+        });
+        list.addEventListener("mouseout", (event) => {
+          event.target.style.color = "";
+        event.target.style.fontWeight='';
+        });
+        
+</script>
+</body>
+</html>
