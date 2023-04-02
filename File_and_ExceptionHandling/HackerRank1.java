@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Solution {
+public class HackerRank1 {
 
     public static void main(String[] args) {
         try{
