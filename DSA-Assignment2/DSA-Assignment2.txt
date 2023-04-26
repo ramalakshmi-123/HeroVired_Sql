@@ -1,0 +1,1586 @@
+
+Question 26: Longest Palindromic Substring
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/longest-palindromic-substring/
+
+
+import java.util.Scanner;
+class Solution {
+    public static String longestPalindrome(String input) {
+        if(input.isEmpty()) {
+      return "";
+    }
+    int n = input.length();
+    int longestSoFar = 0, startIndex = 0, endIndex = 0;
+    boolean[][] palindrom = new boolean[n][n];
+  
+    for(int j = 0; j < n; j++) {
+      palindrom[j][j] = true;
+      for(int i = 0; i < j; i++) {
+        if(input.charAt(i) == input.charAt(j) && (j-i <= 2 || palindrom[i+1][j-1])) {
+          palindrom[i][j] = true;
+          if(j-i+1 > longestSoFar) {
+            longestSoFar = j-i+1;
+            startIndex = i;
+            endIndex = j;
+          }  
+        }
+      }
+    }
+    return input.substring(startIndex, endIndex+1);
+  }
+  public static void main(String[] args) {
+    Scanner keyboard = new Scanner(System.in);
+    String input = keyboard.next();
+    System.out.println(longestPalindrome(input));
+  }
+}
+
+
+Question 27: Median of Two Sorted Arrays
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/median-of-two-sorted-arrays/
+
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums2.length < nums1.length)
+            return findMedianSortedArrays(nums2, nums1);
+        return helper(nums1, 0, nums1.length, nums2);
+    }
+    private double helper(int[] nums1, int l, int h, int[] nums2){
+        while(l <= h){
+            int m1 = l+(h-l)/2;                                                     //# of elements on left in nums1
+            int m2 = (nums2.length+nums1.length+1)/2-m1;                            //# of elements on left in nums2
+            if(m1 > 0 && m2 < nums2.length && nums1[m1-1] > nums2[m2])              //m1 needs to reduced
+                h = m1-1;
+            else if(m2 > 0 && m1 < nums1.length && nums2[m2-1] > nums1[m1])
+                l = m1+1;
+            else{
+                int total = nums1.length+nums2.length;
+                int maxLeft = -Integer.MAX_VALUE;
+                if(m1 > 0)
+                    maxLeft = Math.max(maxLeft, nums1[m1-1]);
+                if(m2 > 0)
+                    maxLeft = Math.max(maxLeft, nums2[m2-1]);
+                if(total % 2 != 0)
+                    return maxLeft;
+                int minRight = Integer.MAX_VALUE;
+                if(m1 < nums1.length)
+                    minRight = Math.min(minRight, nums1[m1]);
+                if(m2 < nums2.length)
+                    minRight = Math.min(minRight, nums2[m2]);
+                return (maxLeft+minRight)/2.0;
+            }
+        }
+        return 0;
+    }
+}
+
+Question 28: Regular Expression Matching
+
+Skill Mapping: Hard
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/regular-expression-matching/
+
+class Solution {
+     public boolean isMatch(String s, String p) {
+    final int m = s.length();
+    final int n = p.length();
+    // dp[i][j] := true if s[0..i) matches p[0..j)
+    boolean[][] dp = new boolean[m + 1][n + 1];
+    dp[0][0] = true;
+
+    for (int j = 0; j < p.length(); ++j)
+      if (p.charAt(j) == '*' && dp[0][j - 1])
+        dp[0][j + 1] = true;
+
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        if (p.charAt(j) == '*') {
+          final boolean noRepeat = dp[i + 1][j - 1]; // Min index of '*' is 1
+          final boolean doRepeat = isMatch(s, i, p, j - 1) && dp[i][j + 1];
+          dp[i + 1][j + 1] = noRepeat || doRepeat;
+        } else if (isMatch(s, i, p, j)) {
+          dp[i + 1][j + 1] = dp[i][j];
+        }
+
+    return dp[m][n];
+  }
+
+  private boolean isMatch(final String s, int i, final String p, int j) {
+    return j >= 0 && p.charAt(j) == '.' || s.charAt(i) == p.charAt(j);
+  }
+}
+
+Question 29: Letter Combinations of a Phone Number
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+
+
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+    if (digits.isEmpty())
+      return new ArrayList<>();
+
+    List<String> ans = new ArrayList<>();
+    ans.add("");
+    final String[] digitToLetters = {"",    "",    "abc",  "def", "ghi",
+                                     "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    for (final char d : digits.toCharArray()) {
+      List<String> temp = new ArrayList<>();
+      for (final String s : ans)
+        for (final char c : digitToLetters[d - '0'].toCharArray())
+          temp.add(s + c);
+      ans = temp;
+    }
+
+    return ans;
+  }
+}
+
+Question 30: Longest Common Prefix
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/longest-common-prefix/
+
+class Solution {
+  public String longestCommonPrefix(String[] strs) {
+    if (strs.length == 0)
+      return "";
+
+    for (int i = 0; i < strs[0].length(); ++i)
+      for (int j = 1; j < strs.length; ++j)
+        if (i == strs[j].length() || strs[j].charAt(i) != strs[0].charAt(i))
+          return strs[0].substring(0, i);
+
+    return strs[0];
+  }
+}
+
+Question 31: Valid Parentheses
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/valid-parentheses/
+
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<Character>();
+        for (char c : s.toCharArray()) {
+            if (c == '(')
+                stack.push(')');
+            else if (c == '{')
+                stack.push('}');
+            else if (c == '[')
+                stack.push(']');
+            else if (stack.isEmpty() || stack.pop() != c)
+                return false;
+        }
+        return stack.isEmpty();
+    }
+}
+
+Question 32: Generate Parentheses
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/generate-parentheses/
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+    List<String> ans = new ArrayList<>();
+    dfs(n, n, new StringBuilder(), ans);
+    return ans;
+  }
+
+  private void dfs(int l, int r, final StringBuilder sb, List<String> ans) {
+    if (l == 0 && r == 0) {
+      ans.add(sb.toString());
+      return;
+    }
+
+    if (l > 0) {
+      sb.append("(");
+      dfs(l - 1, r, sb, ans);
+      sb.deleteCharAt(sb.length() - 1);
+    }
+    if (l < r) {
+      sb.append(")");
+      dfs(l, r - 1, sb, ans);
+      sb.deleteCharAt(sb.length() - 1);
+    }
+  }
+}
+
+Question 33: Merge k Sorted Lists
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/merge-k-sorted-lists/
+
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+    ListNode dummy = new ListNode(0);
+    ListNode curr = dummy;
+    Queue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);
+
+    for (final ListNode list : lists)
+      if (list != null)
+        minHeap.offer(list);
+
+    while (!minHeap.isEmpty()) {
+      ListNode minNode = minHeap.poll();
+      if (minNode.next != null)
+        minHeap.offer(minNode.next);
+      curr.next = minNode;
+      curr = curr.next;
+    }
+
+    return dummy.next;
+  }
+}
+
+Question 34: Swap Nodes in Pairs
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/swap-nodes-in-pairs/
+
+class Solution {
+  public ListNode swapPairs(ListNode head) {
+    final int length = getLength(head);
+    ListNode dummy = new ListNode(0, head);
+    ListNode prev = dummy;
+    ListNode curr = head;
+
+    for (int i = 0; i < length / 2; ++i) {
+      ListNode next = curr.next;
+      curr.next = next.next;
+      next.next = curr;
+      prev.next = next;
+      prev = curr;
+      curr = curr.next;
+    }
+
+    return dummy.next;
+  }
+
+  private int getLength(ListNode head) {
+    int length = 0;
+    for (ListNode curr = head; curr != null; curr = curr.next)
+      ++length;
+    return length;
+  }
+}
+
+Question 35: Reverse Nodes in k-Group
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/reverse-nodes-in-k-group/
+
+class Solution {
+  public ListNode reverseKGroup(ListNode head, int k) {
+    if (head == null)
+      return null;
+
+    ListNode tail = head;
+
+    for (int i = 0; i < k; ++i) {
+      if (tail == null) // Less than k nodes, do nothing
+        return head;
+      tail = tail.next;
+    }
+
+    ListNode newHead = reverse(head, tail);
+    head.next = reverseKGroup(tail, k);
+    return newHead;
+  }
+
+  // Reverses [head, tail)
+  private ListNode reverse(ListNode head, ListNode tail) {
+    ListNode prev = null;
+    ListNode curr = head;
+
+    while (curr != tail) {
+      ListNode next = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = next;
+    }
+
+    return prev;
+  }
+}
+
+Question 36:  Remove Duplicates from Sorted Array
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+class Solution {
+  public int removeDuplicates(int[] nums) {
+    int i = 0;
+
+    for (final int num : nums)
+      if (i < 1 || num > nums[i - 1])
+        nums[i++] = num;
+
+    return i;
+  }
+}
+
+Question 37: Remove Element
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/remove-element/
+
+class Solution {
+  public int removeElement(int[] nums, int val) {
+    int i = 0;
+
+    for (final int num : nums)
+      if (num != val)
+        nums[i++] = num;
+
+    return i;
+  }
+}
+
+Question 38: Find the Index of the First Occurrence in a String
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        return haystack.indexOf(needle);
+    }
+}
+
+Question 39: Divide Two Integers
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/divide-two-integers/
+
+class Solution {
+  public int divide(long dividend, long divisor) {
+    // -2^{31} / -1 = 2^31 -> overflow so return 2^31 - 1
+    if (dividend == Integer.MIN_VALUE && divisor == -1)
+      return Integer.MAX_VALUE;
+
+    final int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;
+    long ans = 0;
+    long dvd = Math.abs(dividend);
+    long dvs = Math.abs(divisor);
+
+    while (dvd >= dvs) {
+      long k = 1;
+      while (k * 2 * dvs <= dvd)
+        k *= 2;
+      dvd -= k * dvs;
+      ans += k;
+    }
+
+    return sign * (int) ans;
+  }
+}
+
+Question 40: Substring with Concatenation of All Words
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+
+class Solution {
+  public List<Integer> findSubstring(String s, String[] words) {
+    if (s.isEmpty() || words.length == 0)
+      return new ArrayList<>();
+
+    final int k = words.length;
+    final int n = words[0].length();
+    List<Integer> ans = new ArrayList<>();
+    Map<String, Integer> count = new HashMap<>();
+
+    for (final String word : words)
+      count.merge(word, 1, Integer::sum);
+
+    for (int i = 0; i <= s.length() - k * n; ++i) {
+      Map<String, Integer> seen = new HashMap<>();
+      int j = 0;
+      for (; j < k; ++j) {
+        final String word = s.substring(i + j * n, i + j * n + n);
+        seen.merge(word, 1, Integer::sum);
+        if (seen.get(word) > count.getOrDefault(word, 0))
+          break;
+      }
+      if (j == k)
+        ans.add(i);
+    }
+
+    return ans;
+  }
+}
+
+Question 41: Next Permutation
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/next-permutation/
+
+class Solution {
+  public void nextPermutation(int[] nums) {
+    final int n = nums.length;
+
+    // From back to front, find the first num < nums[i + 1]
+    int i;
+    for (i = n - 2; i >= 0; --i)
+      if (nums[i] < nums[i + 1])
+        break;
+
+    // From back to front, find the first num > nums[i], swap it with nums[i]
+    if (i >= 0)
+      for (int j = n - 1; j > i; --j)
+        if (nums[j] > nums[i]) {
+          swap(nums, i, j);
+          break;
+        }
+
+    // Reverse nums[i + 1..n - 1]
+    reverse(nums, i + 1, n - 1);
+  }
+
+  private void reverse(int[] nums, int l, int r) {
+    while (l < r)
+      swap(nums, l++, r--);
+  }
+
+  private void swap(int[] nums, int i, int j) {
+    final int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+  }
+}
+
+Question 42: Longest Valid Parentheses
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/longest-valid-parentheses/
+
+class Solution {
+  public int longestValidParentheses(String s) {
+    final String s2 = ")" + s;
+    // dp[i] := Length of longest valid parentheses substring of s2[1..i]
+    int dp[] = new int[s2.length()];
+
+    for (int i = 1; i < s2.length(); ++i)
+      if (s2.charAt(i) == ')' && s2.charAt(i - dp[i - 1] - 1) == '(')
+        dp[i] = dp[i - 1] + dp[i - dp[i - 1] - 2] + 2;
+
+    return Arrays.stream(dp).max().getAsInt();
+  }
+}
+
+
+Question 43: Search in Rotated Sorted Array
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/search-in-rotated-sorted-array/
+
+
+class Solution {
+  public int search(int[] nums, int target) {
+    int l = 0;
+    int r = nums.length - 1;
+
+    while (l <= r) {
+      final int m = (l + r) / 2;
+      if (nums[m] == target)
+        return m;
+      if (nums[l] <= nums[m]) { // nums[l..m] are sorted
+        if (nums[l] <= target && target < nums[m])
+          r = m - 1;
+        else
+          l = m + 1;
+      } else { // nums[m..n - 1] are sorted
+        if (nums[m] < target && target <= nums[r])
+          l = m + 1;
+        else
+          r = m - 1;
+      }
+    }
+
+    return -1;
+  }
+}
+
+
+Question 44: Find First and Last Position of Element in Sorted Array
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int temp[]=new int[2];
+        if(nums.length==0)
+        {
+            temp[0]=-1;
+            temp[1]=-1;
+        }
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]==target)
+            {
+                temp[0]=i;
+                break;
+            }
+            else
+                temp[0]=-1;
+        }
+        for(int i=nums.length-1;i>=0;i--)
+        {
+            if(nums[i]==target)
+            {
+                temp[1]=i;
+                break;
+            }
+            else
+                temp[1]=-1;
+        }
+        return temp;
+    }
+}
+
+Question 45: Search Insert Position
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/search-insert-position/
+
+class Solution {
+  public int searchInsert(int[] nums, int target) {
+    int l = 0;
+    int r = nums.length;
+
+    while (l < r) {
+      final int m = (l + r) / 2;
+      if (nums[m] == target)
+        return m;
+      if (nums[m] < target)
+        l = m + 1;
+      else
+        r = m;
+    }
+
+    return l;
+  }
+}
+
+Question 46: Valid Sudoku
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/valid-sudoku/
+
+class Solution {
+  public boolean isValidSudoku(char[][] board) {
+    Set<String> seen = new HashSet<>();
+
+    for (int i = 0; i < 9; ++i)
+      for (int j = 0; j < 9; ++j) {
+        if (board[i][j] == '.')
+          continue;
+        final char c = board[i][j];
+        if (!seen.add(c + "@row" + i) || //
+            !seen.add(c + "@col" + j) || //
+            !seen.add(c + "@box" + i / 3 + j / 3))
+          return false;
+      }
+
+    return true;
+  }
+}
+
+Question 47: Sudoku Solver
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/sudoku-solver/
+
+
+class Solution {
+  public void solveSudoku(char[][] board) {
+    dfs(board, 0);
+  }
+
+  private boolean dfs(char[][] board, int s) {
+    if (s == 81)
+      return true;
+
+    final int i = s / 9;
+    final int j = s % 9;
+
+    if (board[i][j] != '.')
+      return dfs(board, s + 1);
+
+    for (char c = '1'; c <= '9'; ++c)
+      if (isValid(board, i, j, c)) {
+        board[i][j] = c;
+        if (dfs(board, s + 1))
+          return true;
+        board[i][j] = '.';
+      }
+
+    return false;
+  }
+
+  private boolean isValid(char[][] board, int row, int col, char c) {
+    for (int i = 0; i < 9; ++i)
+      if (board[i][col] == c || board[row][i] == c ||
+          board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c)
+        return false;
+    return true;
+  }
+}
+
+Question 48: Count and Say
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/count-and-say/
+
+class Solution {
+  public String countAndSay(int n) {
+    StringBuilder sb = new StringBuilder("1");
+
+    while (--n > 0) {
+      StringBuilder next = new StringBuilder();
+      for (int i = 0; i < sb.length(); ++i) {
+        int count = 1;
+        while (i + 1 < sb.length() && sb.charAt(i) == sb.charAt(i + 1)) {
+          ++count;
+          ++i;
+        }
+        next.append(count).append(sb.charAt(i));
+      }
+      sb = next;
+    }
+
+    return sb.toString();
+  }
+}
+
+
+Question 49: Combination Sum
+
+Skill Mapping: Basic
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/combination-sum/
+
+
+class Solution {
+  public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    List<List<Integer>> ans = new ArrayList<>();
+    Arrays.sort(candidates);
+    dfs(0, candidates, target, new ArrayList<>(), ans);
+    return ans;
+  }
+
+  private void dfs(int s, int[] candidates, int target, List<Integer> path,
+                   List<List<Integer>> ans) {
+    if (target < 0)
+      return;
+    if (target == 0) {
+      ans.add(new ArrayList<>(path));
+      return;
+    }
+
+    for (int i = s; i < candidates.length; ++i) {
+      path.add(candidates[i]);
+      dfs(i, candidates, target - candidates[i], path, ans);
+      path.remove(path.size() - 1);
+    }
+  }
+}
+
+Question 50: Combination Sum II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/combination-sum-ii/
+
+
+class Solution {
+  public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    List<List<Integer>> ans = new ArrayList<>();
+    Arrays.sort(candidates);
+    dfs(0, candidates, target, new ArrayList<>(), ans);
+    return ans;
+  }
+
+  private void dfs(int s, int[] candidates, int target, List<Integer> path,
+                   List<List<Integer>> ans) {
+    if (target < 0)
+      return;
+    if (target == 0) {
+      ans.add(new ArrayList<>(path));
+      return;
+    }
+
+    for (int i = s; i < candidates.length; ++i) {
+      if (i > s && candidates[i] == candidates[i - 1])
+        continue;
+      path.add(candidates[i]);
+      dfs(i + 1, candidates, target - candidates[i], path, ans);
+      path.remove(path.size() - 1);
+    }
+  }
+}
+
+Question 51: First Missing Positive
+
+Skill Mapping: Hard
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/first-missing-positive/
+
+
+class Solution {
+  public int firstMissingPositive(int[] nums) {
+    final int n = nums.length;
+
+    // Correct slot:
+    // nums[i] = i + 1
+    // nums[i] - 1 = i
+    // nums[nums[i] - 1] = nums[i]
+    for (int i = 0; i < n; ++i)
+      while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1])
+        swap(nums, i, nums[i] - 1);
+
+    for (int i = 0; i < n; ++i)
+      if (nums[i] != i + 1)
+        return i + 1;
+
+    return n + 1;
+  }
+
+  private void swap(int[] nums, int i, int j) {
+    final int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+  }
+}
+
+Question 52: Trapping Rain Water
+
+Skill Mapping: Hard
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/trapping-rain-water/
+
+
+class Solution {
+  public int trap(int[] height) {
+    if (height.length == 0)
+      return 0;
+
+    int ans = 0;
+    int l = 0;
+    int r = height.length - 1;
+    int maxL = height[l];
+    int maxR = height[r];
+
+    while (l < r)
+      if (maxL < maxR) {
+        ans += maxL - height[l];
+        maxL = Math.max(maxL, height[++l]);
+      } else {
+        ans += maxR - height[r];
+        maxR = Math.max(maxR, height[--r]);
+      }
+
+    return ans;
+  }
+}
+
+Question 53: Multiply Strings
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/multiply-strings/
+
+
+class Solution {
+  public String multiply(String num1, String num2) {
+    final int m = num1.length();
+    final int n = num2.length();
+
+    StringBuilder sb = new StringBuilder();
+    int[] pos = new int[m + n];
+
+    for (int i = m - 1; i >= 0; --i)
+      for (int j = n - 1; j >= 0; --j) {
+        final int multiply = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+        final int sum = multiply + pos[i + j + 1];
+        pos[i + j] += sum / 10;
+        pos[i + j + 1] = sum % 10;
+      }
+
+    for (final int p : pos)
+      if (p > 0 || sb.length() > 0)
+        sb.append(p);
+
+    return sb.length() == 0 ? "0" : sb.toString();
+  }
+}
+
+
+Question 54: Wildcard Matching
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/wildcard-matching/
+
+
+class Solution {
+  public boolean isMatch(String s, String p) {
+    final int m = s.length();
+    final int n = p.length();
+    // dp[i][j] := true if s[0..i) matches p[0..j)
+    boolean[][] dp = new boolean[m + 1][n + 1];
+    dp[0][0] = true;
+
+    for (int j = 0; j < p.length(); ++j)
+      if (p.charAt(j) == '*')
+        dp[0][j + 1] = dp[0][j];
+
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        if (p.charAt(j) == '*') {
+          final boolean matchEmpty = dp[i + 1][j];
+          final boolean matchSome = dp[i][j + 1];
+          dp[i + 1][j + 1] = matchEmpty || matchSome;
+        } else if (isMatch(s, i, p, j)) {
+          dp[i + 1][j + 1] = dp[i][j];
+        }
+
+    return dp[m][n];
+  }
+
+  private boolean isMatch(final String s, int i, final String p, int j) {
+    return j >= 0 && p.charAt(j) == '?' || s.charAt(i) == p.charAt(j);
+  }
+}
+
+Question 55: Jump Game II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/jump-game-ii/
+
+class Solution {
+  public int jump(int[] nums) {
+    int ans = 0;
+    int end = 0;
+    int farthest = 0;
+
+    // Implicit BFS
+    for (int i = 0; i < nums.length - 1; ++i) {
+      farthest = Math.max(farthest, i + nums[i]);
+      if (farthest >= nums.length - 1) {
+        ++ans;
+        break;
+      }
+      if (i == end) {   // Visited all the items on the current level
+        ++ans;          // Increment the level
+        end = farthest; // Make the queue size for the next level
+      }
+    }
+
+    return ans;
+  }
+}
+
+Question 56: Permutations
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/permutations/
+
+
+class Solution {
+  public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> ans = new ArrayList<>();
+
+    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);
+    return ans;
+  }
+
+  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {
+    if (path.size() == nums.length) {
+      ans.add(new ArrayList<>(path));
+      return;
+    }
+
+    for (int i = 0; i < nums.length; ++i) {
+      if (used[i])
+        continue;
+      used[i] = true;
+      path.add(nums[i]);
+      dfs(nums, used, path, ans);
+      path.remove(path.size() - 1);
+      used[i] = false;
+    }
+  }
+}
+
+Question 57: Permutations II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/permutations-ii/
+
+class Solution {
+  public List<List<Integer>> permuteUnique(int[] nums) {
+    List<List<Integer>> ans = new ArrayList<>();
+    Arrays.sort(nums);
+    dfs(nums, new boolean[nums.length], new ArrayList<>(), ans);
+    return ans;
+  }
+
+  private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) {
+    if (path.size() == nums.length) {
+      ans.add(new ArrayList<>(path));
+      return;
+    }
+
+    for (int i = 0; i < nums.length; ++i) {
+      if (used[i])
+        continue;
+      if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])
+        continue;
+      used[i] = true;
+      path.add(nums[i]);
+      dfs(nums, used, path, ans);
+      path.remove(path.size() - 1);
+      used[i] = false;
+    }
+  }
+}
+
+Question 58: Rotate Image
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/rotate-image/
+
+class Solution {
+  public void rotate(int[][] matrix) {
+    for (int i = 0, j = matrix.length - 1; i < j; ++i, --j) {
+      int[] temp = matrix[i];
+      matrix[i] = matrix[j];
+      matrix[j] = temp;
+    }
+
+    for (int i = 0; i < matrix.length; ++i)
+      for (int j = i + 1; j < matrix.length; ++j) {
+        final int temp = matrix[i][j];
+        matrix[i][j] = matrix[j][i];
+        matrix[j][i] = temp;
+      }
+  }
+}
+
+Question 59: Group Anagrams
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/group-anagrams/
+
+class Solution {
+  public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> keyToAnagrams = new HashMap<>();
+
+    for (final String str : strs) {
+      char[] chars = str.toCharArray();
+      Arrays.sort(chars);
+      String key = String.valueOf(chars);
+      keyToAnagrams.computeIfAbsent(key, k -> new ArrayList<>()).add(str);
+    }
+
+    return new ArrayList<>(keyToAnagrams.values());
+  }
+}
+
+Question 60: Pow(x, n)
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/powx-n/
+
+class Solution {
+  public double myPow(double x, long n) {
+    if (n == 0)
+      return 1;
+    if (n < 0)
+      return 1 / myPow(x, -n);
+    if (n % 2 == 1)
+      return x * myPow(x, n - 1);
+    return myPow(x * x, n / 2);
+  }
+}
+
+Question 61: N-Queens
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/n-queens/
+
+
+class Solution {
+  public List<List<String>> solveNQueens(int n) {
+    List<List<String>> ans = new ArrayList<>();
+    char[][] board = new char[n][n];
+
+    for (int i = 0; i < n; ++i)
+      Arrays.fill(board[i], '.');
+
+    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1], board, ans);
+    return ans;
+  }
+
+  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2, char[][] board,
+                   List<List<String>> ans) {
+    if (i == n) {
+      ans.add(construct(board));
+      return;
+    }
+
+    for (int j = 0; j < cols.length; ++j) {
+      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])
+        continue;
+      board[i][j] = 'Q';
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;
+      dfs(n, i + 1, cols, diag1, diag2, board, ans);
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;
+      board[i][j] = '.';
+    }
+  }
+
+  private List<String> construct(char[][] board) {
+    List<String> listBoard = new ArrayList<>();
+    for (int i = 0; i < board.length; ++i)
+      listBoard.add(String.valueOf(board[i]));
+    return listBoard;
+  }
+}
+
+Question 62: N-Queens II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/n-queens-ii/
+
+class Solution {
+  public int totalNQueens(int n) {
+    dfs(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1]);
+    return ans;
+  }
+
+  private int ans = 0;
+
+  private void dfs(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2) {
+    if (i == n) {
+      ++ans;
+      return;
+    }
+
+    for (int j = 0; j < cols.length; ++j) {
+      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])
+        continue;
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;
+      dfs(n, i + 1, cols, diag1, diag2);
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;
+    }
+  }
+}
+
+Question 63: Maximum Subarray
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/maximum-subarray/
+
+class Solution {
+  public int maxSubArray(int[] nums) {
+    int ans = Integer.MIN_VALUE;
+    int sum = 0;
+
+    for (final int num : nums) {
+      sum = Math.max(num, sum + num);
+      ans = Math.max(ans, sum);
+    }
+
+    return ans;
+  }
+}
+
+Question 64: Spiral Matrix
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/spiral-matrix/
+
+
+class Solution {
+  public List<Integer> spiralOrder(int[][] matrix) {
+    if (matrix.length == 0)
+      return new ArrayList<>();
+
+    final int m = matrix.length;
+    final int n = matrix[0].length;
+    List<Integer> ans = new ArrayList<>();
+    int r1 = 0;
+    int c1 = 0;
+    int r2 = m - 1;
+    int c2 = n - 1;
+
+    // Repeatedly add matrix[r1..r2][c1..c2] to ans
+    while (ans.size() < m * n) {
+      for (int j = c1; j <= c2 && ans.size() < m * n; ++j)
+        ans.add(matrix[r1][j]);
+      for (int i = r1 + 1; i <= r2 - 1 && ans.size() < m * n; ++i)
+        ans.add(matrix[i][c2]);
+      for (int j = c2; j >= c1 && ans.size() < m * n; --j)
+        ans.add(matrix[r2][j]);
+      for (int i = r2 - 1; i >= r1 + 1 && ans.size() < m * n; --i)
+        ans.add(matrix[i][c1]);
+      ++r1;
+      ++c1;
+      --r2;
+      --c2;
+    }
+
+    return ans;
+  }
+}
+
+Question 65: Jump Game
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/jump-game/
+
+
+class Solution {
+  public boolean canJump(int[] nums) {
+    int i = 0;
+
+    for (int reach = 0; i < nums.length && i <= reach; ++i)
+      reach = Math.max(reach, i + nums[i]);
+
+    return i == nums.length;
+  }
+}
+
+Question 66: Merge Intervals
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/merge-intervals/
+
+
+class Solution {
+  public int[][] merge(int[][] intervals) {
+    List<int[]> ans = new ArrayList<>();
+
+    Arrays.sort(intervals, (a, b) -> (a[0] - b[0]));
+
+    for (int[] interval : intervals)
+      if (ans.isEmpty() || ans.get(ans.size() - 1)[1] < interval[0])
+        ans.add(interval);
+      else
+        ans.get(ans.size() - 1)[1] = Math.max(ans.get(ans.size() - 1)[1], interval[1]);
+
+    return ans.stream().toArray(int[][] ::new);
+  }
+}
+
+Question 67: Insert Interval
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/insert-interval/
+
+class Solution {
+  public int[][] insert(int[][] intervals, int[] newInterval) {
+    final int n = intervals.length;
+    List<int[]> ans = new ArrayList<>();
+    int i = 0;
+
+    while (i < n && intervals[i][1] < newInterval[0])
+      ans.add(intervals[i++]);
+
+    while (i < n && intervals[i][0] <= newInterval[1]) {
+      newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+      newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+      ++i;
+    }
+
+    ans.add(newInterval);
+
+    while (i < n)
+      ans.add(intervals[i++]);
+
+    return ans.stream().toArray(int[][] ::new);
+  }
+}
+
+Question 68: Length of Last Word
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/length-of-last-word/
+
+class Solution {
+  public int lengthOfLastWord(String s) {
+    int i = s.length() - 1;
+
+    while (i >= 0 && s.charAt(i) == ' ')
+      --i;
+    final int lastIndex = i;
+    while (i >= 0 && s.charAt(i) != ' ')
+      --i;
+
+    return lastIndex - i;
+  }
+}
+
+Question 69: Spiral Matrix II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/spiral-matrix-ii/
+
+
+class Solution {
+  public int[][] generateMatrix(int n) {
+    int[][] ans = new int[n][n];
+    int count = 1;
+
+    for (int min = 0; min < n / 2; ++min) {
+      final int max = n - min - 1;
+      for (int i = min; i < max; ++i)
+        ans[min][i] = count++;
+      for (int i = min; i < max; ++i)
+        ans[i][max] = count++;
+      for (int i = max; i > min; --i)
+        ans[max][i] = count++;
+      for (int i = max; i > min; --i)
+        ans[i][min] = count++;
+    }
+
+    if (n % 2 == 1)
+      ans[n / 2][n / 2] = count;
+
+    return ans;
+  }
+}
+
+
+Question 70: Permutation Sequence
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/permutation-sequence/
+
+class Solution {
+  public String getPermutation(int n, int k) {
+    StringBuilder sb = new StringBuilder();
+    List<Integer> nums = new ArrayList<>();
+    int[] fact = new int[n + 1]; // fact[i] := i!
+
+    for (int i = 1; i <= n; ++i)
+      nums.add(i);
+
+    Arrays.fill(fact, 1);
+    for (int i = 2; i <= n; ++i)
+      fact[i] = fact[i - 1] * i;
+
+    --k; // 0-indexed
+
+    for (int i = n - 1; i >= 0; --i) {
+      final int j = k / fact[i];
+      k %= fact[i];
+      sb.append(nums.get(j));
+      nums.remove(j);
+    }
+
+    return sb.toString();
+  }
+}
+
+Question 71: Rotate List
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/rotate-list/
+
+
+class Solution {
+  public ListNode rotateRight(ListNode head, int k) {
+    if (head == null || head.next == null || k == 0)
+      return head;
+
+    int length = 1;
+    ListNode tail = head;
+    for (; tail.next != null; tail = tail.next)
+      ++length;
+    tail.next = head; // Circle the list
+
+    final int t = length - k % length;
+    for (int i = 0; i < t; ++i)
+      tail = tail.next;
+    ListNode newHead = tail.next;
+    tail.next = null;
+
+    return newHead;
+  }
+}
+
+Question 72: Unique Paths
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/unique-paths/
+
+
+class Solution {
+  public int uniquePaths(int m, int n) {
+    int[] dp = new int[n];
+    Arrays.fill(dp, 1);
+
+    for (int i = 1; i < m; ++i)
+      for (int j = 1; j < n; ++j)
+        dp[j] += dp[j - 1];
+
+    return dp[n - 1];
+  }
+}
+
+Question 73: Unique Paths II
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/unique-paths-ii/
+
+class Solution {
+  public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+    final int m = obstacleGrid.length;
+    final int n = obstacleGrid[0].length;
+    int[] dp = new int[n];
+    dp[0] = 1;
+
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        if (obstacleGrid[i][j] == 1)
+          dp[j] = 0;
+        else if (j > 0)
+          dp[j] += dp[j - 1];
+
+    return dp[n - 1];
+  }
+}
+
+Question 74: Minimum Path Sum
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/minimum-path-sum/
+
+
+class Solution {
+  public int minPathSum(int[][] grid) {
+    final int m = grid.length;
+    final int n = grid[0].length;
+
+    for (int i = 0; i < m; ++i)
+      for (int j = 0; j < n; ++j)
+        if (i > 0 && j > 0)
+          grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
+        else if (i > 0)
+          grid[i][0] += grid[i - 1][0];
+        else if (j > 0)
+          grid[0][j] += grid[0][j - 1];
+
+    return grid[m - 1][n - 1];
+  }
+}
+
+
+Question 75: Valid Number
+
+Skill Mapping: Medium
+
+Description: Solve the LeetCode Problem given as a link below - 
+
+https://leetcode.com/problems/valid-number/
+
+
+class Solution {
+  public boolean isNumber(String s) {
+    s = s.trim();
+    if (s.isEmpty())
+      return false;
+
+    boolean seenNum = false;
+    boolean seenDot = false;
+    boolean seenE = false;
+
+    for (int i = 0; i < s.length(); ++i) {
+      switch (s.charAt(i)) {
+        case '.':
+          if (seenDot || seenE)
+            return false;
+          seenDot = true;
+          break;
+        case 'e':
+        case 'E':
+          if (seenE || !seenNum)
+            return false;
+          seenE = true;
+          seenNum = false;
+          break;
+        case '+':
+        case '-':
+          if (i > 0 && s.charAt(i - 1) != 'e')
+            return false;
+          seenNum = false;
+          break;
+        default:
+          if (!Character.isDigit(s.charAt(i)))
+            return false;
+          seenNum = true;
+      }
+    }
+
+    return seenNum;
+  }
+}
+
